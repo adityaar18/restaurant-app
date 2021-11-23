@@ -10,7 +10,7 @@ import 'package:fundamental2/widget/custom_sliver_appbar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                 );
               } else {
                 return SliverFillRemaining(
-                  child: Center(child: Lottie.asset('assets/json/search_empty.json')),
+                  child: Center(child: Lottie.asset('assets/json/not_found.json')),
                 );
               }
             },
@@ -94,13 +94,15 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           restaurant.name,
+                          textAlign: TextAlign.justify,
                           style: Theme.of(context).textTheme.headline6,
                           overflow: TextOverflow.visible,
                         ),
                         Text(
                           restaurant.description,
+                          textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                          maxLines: 3,
                         ),
                         Row(
                           children: [

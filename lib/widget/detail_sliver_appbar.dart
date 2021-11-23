@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fundamental2/data/model/restaurant.dart';
 import 'package:fundamental2/provider/app_provider.dart';
-import 'package:fundamental2/ui/reviews_screen.dart';
 
 class DetailSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
@@ -63,26 +62,6 @@ class DetailSliverAppBar extends SliverPersistentHeaderDelegate {
                           restaurant.name,
                           style: Theme.of(context).textTheme.headline5,
                         ),
-                        IconButton(
-                            padding: EdgeInsets.all(1),
-                            icon: Icon(Icons.info_outline),
-                            onPressed: () => showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text(restaurant.name),
-                                    content: Text(
-                                      restaurant.description,
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context, "OK");
-                                          },
-                                          child: Text('OK'))
-                                    ],
-                                  ),
-                                ))
                       ],
                     ),
                     Row(
@@ -112,22 +91,6 @@ class DetailSliverAppBar extends SliverPersistentHeaderDelegate {
                           SizedBox(
                             width: 20,
                           ),
-                          Icon(
-                            Icons.rate_review,
-                            size: 18,
-                            color: Colors.orange,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return ReviewScreen(restaurant: restaurant);
-                              })).then((value) => setState(provider));
-                            },
-                            child: Text(
-                              " ${restaurant.customerReviews.length} reviews",
-                              style: TextStyle(decoration: TextDecoration.underline),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -139,7 +102,7 @@ class DetailSliverAppBar extends SliverPersistentHeaderDelegate {
                               child: Chip(
                                 label: Text(cat.name),
                                 backgroundColor: Colors.white,
-                                shape: StadiumBorder(side: BorderSide(color: Colors.green)),
+                                shape: StadiumBorder(side: BorderSide(color: Colors.red)),
                               ),
                             ),
                           )
@@ -147,8 +110,7 @@ class DetailSliverAppBar extends SliverPersistentHeaderDelegate {
                     ),
                     Text(
                       restaurant.description,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
                       style: TextStyle(color: Colors.black87),
                     ),
                   ],

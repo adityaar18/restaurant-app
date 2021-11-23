@@ -1,63 +1,46 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:fundamental2/data/model/response/response_restaurant.dart';
-import 'package:fundamental2/data/model/response/response_restaurant_detail.dart';
-import 'package:fundamental2/data/model/response/response_review.dart';
-import 'package:fundamental2/data/model/review.dart';
-import 'package:fundamental2/utils/config.dart';
-import 'package:fundamental2/utils/const_string.dart';
+import 'package:fundamental2/data/model/get/get_restaurant.dart';
+import 'package:fundamental2/data/model/get/get_detail.dart';
+
+const String BASE_URL = 'https://restaurant-api.dicoding.dev/';
+const String failed_get_data = "Failed to get the data";
+const String failed_post_review = "Failed to post review";
 
 class ApiService {
-  Future<ResponseRestaurant> getList() async {
+  Future<GetRestaurant> getList() async {
     try {
-      final response = await http.get(Uri.parse(Config.BASE_URL + 'list'));
+      final response = await http.get(Uri.parse(BASE_URL + 'list'));
       if (response.statusCode == 200) {
-        return ResponseRestaurant.fromJson(json.decode(response.body));
+        return GetRestaurant.fromJson(json.decode(response.body));
       } else {
-        throw Exception(ConstString.failed_get_data);
+        throw Exception(failed_get_data);
       }
     } catch (e) {
       throw Exception(e.message);
     }
   }
 
-  Future<ResponseRestaurant> search({String query = ""}) async {
+  Future<GetRestaurant> search({String query = ""}) async {
     try {
-      final response = await http.get(Uri.parse(Config.BASE_URL + 'search?q=' + query));
+      final response = await http.get(Uri.parse(BASE_URL + 'search?q=' + query));
       if (response.statusCode == 200) {
-        return ResponseRestaurant.fromJson(json.decode(response.body));
+        return GetRestaurant.fromJson(json.decode(response.body));
       } else {
-        throw Exception(ConstString.failed_get_data);
+        throw Exception(failed_get_data);
       }
     } catch (e) {
       throw Exception(e.message);
     }
   }
 
-  Future<ResponseRestaurantDetail> getDetail(String id) async {
-    final response = await http.get(Uri.parse(Config.BASE_URL + 'detail/$id'));
+  Future<GetDetail> getDetail(String id) async {
+    final response = await http.get(Uri.parse(BASE_URL + 'detail/$id'));
     if (response.statusCode == 200) {
-      return ResponseRestaurantDetail.fromJson(json.decode(response.body));
+      return GetDetail.fromJson(json.decode(response.body));
     } else {
-      throw Exception(ConstString.failed_get_data);
-    }
-  }
-
-  Future<ResponseReview> postReview(Review review) async {
-    var _review = jsonEncode(review.toJson());
-    final response = await http.post(
-      Uri.parse(Config.BASE_URL + "review"),
-      body: _review,
-      headers: <String, String>{
-        "Content-Type": "application/json",
-        "X-Auth-Token": "12345",
-      },
-    );
-    if (response.statusCode == 200) {
-      return ResponseReview.fromJson(json.decode(response.body));
-    } else {
-      throw Exception(ConstString.failed_post_review);
+      throw Exception(failed_get_data);
     }
   }
 }

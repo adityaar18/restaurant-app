@@ -1,7 +1,3 @@
-///
-/// This widget was brought and customized from here
-/// [link] https://medium.com/flutter-community/flutter-increase-the-power-of-your-appbar-sliverappbar-c4f67c4e076f
-///
 import 'package:flutter/material.dart';
 import 'package:fundamental2/provider/app_provider.dart';
 
@@ -18,7 +14,7 @@ class CustomSliverAppBar extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       children: [
         Image.asset(
-          'assets/images/restaurant_small.jpeg',
+          'assets/images/backgorund_restaurant.jpg',
           fit: BoxFit.cover,
         ),
         Positioned(
@@ -36,12 +32,14 @@ class CustomSliverAppBar extends SliverPersistentHeaderDelegate {
                   child: Container(
                       child: TextFormField(
                     onChanged: (value) {
-                      if (value.length >= 3)
+                      if (value.length >= 3) {
                         provider.onSearch(value);
-                      else if (value.length == 0) provider.onSearch(value);
+                      } else if (value.isEmpty) {
+                        provider.onSearch(value);
+                      }
                     },
                     decoration: InputDecoration(
-                        hintText: "Search restaurant or menu",
+                        hintText: "Cari Restoran",
                         suffixIcon: Icon(Icons.search),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(left: 10, top: 15)),

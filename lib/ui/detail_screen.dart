@@ -5,7 +5,7 @@ import 'package:fundamental2/data/api/api_service.dart';
 import 'package:fundamental2/data/model/menus.dart';
 import 'package:fundamental2/data/model/restaurant.dart';
 import 'package:fundamental2/provider/app_provider.dart';
-import 'package:fundamental2/utils/utils.dart';
+
 import 'package:fundamental2/widget/detail_sliver_appbar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -75,14 +75,10 @@ class DetailScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    Utils.camelCase(e.name),
+                    e.name,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Text(
-                  Utils.generatePrice(),
-                  style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
-                )
               ],
             ),
           );
@@ -98,7 +94,7 @@ class DetailScreen extends StatelessWidget {
             delegate: DetailSliverAppBar(expandedHeight: 250, restaurant: restaurant, provider: provider)),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: 120,
+            height: 250,
           ),
         ),
         SliverPadding(

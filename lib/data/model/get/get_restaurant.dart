@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:fundamental2/data/model/restaurant.dart';
 
-class ResponseRestaurant {
-  ResponseRestaurant(
+class GetRestaurant {
+  GetRestaurant(
       {@required this.error, @required this.message, @required this.count, @required this.restaurants});
 
   bool error;
@@ -10,7 +10,7 @@ class ResponseRestaurant {
   int count;
   List<Restaurant> restaurants;
 
-  factory ResponseRestaurant.fromJson(Map<String, dynamic> json) => ResponseRestaurant(
+  factory GetRestaurant.fromJson(Map<String, dynamic> json) => GetRestaurant(
       error: json['error'],
       message: json['message'],
       count: json['count'],

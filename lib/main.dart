@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fundamental2/ui/home_screen.dart';
+import 'package:fundamental2/ui/main_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Restaurant',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.amber,
       ),
-      home: HomeScreen(),
+      home: MainScreen(),
     );
   }
 }

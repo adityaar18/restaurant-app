@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:fundamental2/data/model/categories.dart';
-import 'package:fundamental2/data/model/review.dart';
-import 'package:fundamental2/utils/config.dart';
-
 import 'menus.dart';
+
+const String BASE_URL = 'https://restaurant-api.dicoding.dev/';
+const String IMG_SMALL_URL = BASE_URL + "images/small/";
+const String IMG_MEDIUM_URL = BASE_URL + "images/medium/";
+const String IMG_LARGE_URL = BASE_URL + "images/large/";
 
 class Restaurant {
   Restaurant(
@@ -15,8 +17,7 @@ class Restaurant {
       @required this.rating,
       this.address,
       this.categories,
-      this.menus,
-      this.customerReviews});
+      this.menus});
 
   String id;
   String name;
@@ -27,7 +28,6 @@ class Restaurant {
   double rating;
   List<Categories> categories;
   Menus menus;
-  List<Review> customerReviews;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
       id: json["id"],
@@ -40,16 +40,11 @@ class Restaurant {
       categories: json["categories"] == null
           ? null
           : List<Categories>.from(json['categories'].map((x) => Categories.fromJson(x))),
-      menus: json["menus"] == null ? null : Menus.fromJson(json["menus"]),
-      customerReviews: json["customerReviews"] == null
-          ? null
-          : List<Review>.from((json["customerReviews"] as List)
-              .map((x) => Review.fromJson(x))
-              .where((review) => review.review != null && review.name.length > 0)));
+      menus: json["menus"] == null ? null : Menus.fromJson(json["menus"]));
 
-  String getSmallPicture() => Config.IMG_SMALL_URL + this.pictureId;
+  String getSmallPicture() => IMG_SMALL_URL + this.pictureId;
 
-  String getMediumPicture() => Config.IMG_MEDIUM_URL + this.pictureId;
+  String getMediumPicture() => IMG_MEDIUM_URL + this.pictureId;
 
-  String getLargePicture() => Config.IMG_LARGE_URL + this.pictureId;
+  String getLargePicture() => IMG_LARGE_URL + this.pictureId;
 }
