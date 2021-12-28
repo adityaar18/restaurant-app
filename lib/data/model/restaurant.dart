@@ -42,6 +42,18 @@ class Restaurant {
           : List<Categories>.from(json['categories'].map((x) => Categories.fromJson(x))),
       menus: json["menus"] == null ? null : Menus.fromJson(json["menus"]));
 
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+    "pictureId": pictureId,
+    "address": address,
+    "city": city,
+    "rating": rating,
+    "categories": categories == null ? null : List<dynamic>.from(categories.map((e) => e.toJson())),
+    "menus": menus == null ? null : menus.toJson(),
+  };
+
   String getSmallPicture() => IMG_SMALL_URL + this.pictureId;
 
   String getMediumPicture() => IMG_MEDIUM_URL + this.pictureId;

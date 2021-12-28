@@ -1,14 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:fundamental2/data/api/api_service.dart';
+import 'package:fundamental2/data/database/database_helper.dart';
+import 'package:fundamental2/data/model/favorite.dart';
 import 'package:fundamental2/data/model/get/get_restaurant.dart';
 import 'package:fundamental2/data/model/get/get_detail.dart';
+import 'package:http/http.dart';
 
 enum ResultState { Loading, NoData, HasData, Error }
 
 class AppProvider extends ChangeNotifier {
-  final ApiService apiService;
+  final ApiService apiService= ApiService();
+  final DatabaseHelper databaseHelper  = DatabaseHelper();
 
-  AppProvider({@required this.apiService});
+  List<Favorite> _favorites = [];
+  List<Favorite> get favorites => _favorites;
 
   GetRestaurant _responseRestaurant;
   GetDetail _responseRestaurantDetail;
@@ -21,6 +26,11 @@ class AppProvider extends ChangeNotifier {
   ResultState get state => _state;
   String get message => _message;
 
+  AppProvider(){
+    _fetchRestaurants();
+    _getFavorites();
+  }
+
   AppProvider getRestaurants() {
     _fetchRestaurants();
     return this;
@@ -31,12 +41,17 @@ class AppProvider extends ChangeNotifier {
     return this;
   }
 
+  AppProvider listFavorite() {
+    _getFavorites();
+    return this;
+  }
+
   Future<dynamic> _fetchRestaurants() async {
     try {
       _state = ResultState.Loading;
       notifyListeners();
       if (_query == ""){
-        final response = await apiService.getList();
+        final response = await apiService.getRestaurants();
         if (response.restaurants.isEmpty) {
           _state = ResultState.NoData;
           notifyListeners();
@@ -89,5 +104,24 @@ class AppProvider extends ChangeNotifier {
   void onSearch(String query) {
     _query = query;
     _fetchRestaurants();
+  }
+
+  void _getFavorites() async {
+    _favorites = await databaseHelper.getFavorites();
+    notifyListeners();
+  }
+
+  Future<bool> getFavoriteById(String id) async =>
+      await databaseHelper.getFavoriteById(id);
+
+  void addFavorite(Favorite favorite) async {
+    await databaseHelper.addFavorite(favorite);
+    _getFavorites();
+  }
+
+  void removeFavorite(String id) async {
+    await databaseHelper.removeFavorite(id);
+    notifyListeners();
+    _getFavorites();
   }
 }

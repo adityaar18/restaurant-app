@@ -3,15 +3,29 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fundamental2/data/model/get/get_restaurant.dart';
 import 'package:fundamental2/data/model/get/get_detail.dart';
+import 'package:http/http.dart';
 
-const String BASE_URL = 'https://restaurant-api.dicoding.dev/';
+const String  BASE_URL = 'https://restaurant-api.dicoding.dev/';
 const String failed_get_data = "Failed to get the data";
 const String failed_post_review = "Failed to post review";
 
 class ApiService {
-  Future<GetRestaurant> getList() async {
+  Future<GetRestaurant> getList(http.Client client) async {
     try {
-      final response = await http.get(Uri.parse(BASE_URL + 'list'));
+      final response = await client.get(Uri.parse(BASE_URL + 'list'));
+      if (response.statusCode == 200) {
+        return GetRestaurant.fromJson(json.decode(response.body));
+      } else {
+        throw Exception(failed_get_data);
+      }
+    } catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<GetRestaurant> getRestaurants() async {
+    try {
+      final response = await get(Uri.parse(BASE_URL + 'list'));
       if (response.statusCode == 200) {
         return GetRestaurant.fromJson(json.decode(response.body));
       } else {
